@@ -1,0 +1,57 @@
+@import "../../variables.scss";
+
+.dictionary-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 1rem;
+  background-color: $primary-color;
+}
+
+.dictionary-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1rem;
+  padding: $base-padding;
+  background-color: $background-color;
+
+  button {
+    width: fit-content;
+    font-size: 1.5rem;
+    color: $primary-color;
+    background-color: $secondary-color;
+    padding: $base-padding $base-padding * 3;
+    border-radius: 0.5rem;
+    transition: background-color $transition-duration;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
+  }
+}
+
+.dictionary-form-fieldset {
+  text-align: center;
+
+  legend {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  input {
+    margin-right: 1rem;
+    font-size: 1.3rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: $base-padding / 2;
+  }
+}
+
+.dictionary-list {
+    background-color: $background-color;
+}

@@ -1,0 +1,30 @@
+@import "../../variables.scss";
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: $secondary-color;
+  padding: $base-padding;
+  box-shadow: $box-shadow;
+  margin: $base-margin;
+  border-radius: 0.5rem;
+
+  a {
+    font-size: 2rem;
+    color: $primary-color; 
+    margin-right: $base-margin;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color $transition-duration;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

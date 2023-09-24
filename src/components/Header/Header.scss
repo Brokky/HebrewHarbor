@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+
+header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: $base-padding;
+
+  background-color: $primary-color;
+  color: $secondary-color;
+}
