@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import "./Navbar.scss";
 
 const Navbar = () => {
@@ -6,11 +6,11 @@ const Navbar = () => {
 
   return (
     <nav>
-      {location.pathname !== "/" && <a href="/">Home</a>}
+      {location.pathname !== "/" && <Link to="/">Home</Link>}
       {location.pathname !== "/dictionary" && (
-        <a href="/dictionary">Dictionary</a>
+        <Link to="/dictionary">Dictionary</Link>
       )}
-      {location.pathname !== "/lesson" && <a href="/lesson">Lesson</a>}
+      {location.pathname !== "/lesson" && <Link to="/lesson">Lesson</Link>}
     </nav>
   );
 };

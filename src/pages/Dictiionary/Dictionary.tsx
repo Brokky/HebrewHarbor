@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header/Header";
 import { NewWord, StoredWord } from "../../types";
 import { addWord, removeWord } from "../../selectedWordsSlice";
+import { RootState } from "../../store";
 import "./Dictionary.scss";
 
 const inputFields = [
@@ -16,6 +17,10 @@ const server = "http://localhost:3000/words";
 
 const Dictionary = () => {
   const dispatch = useDispatch();
+
+  const selectedWords = useSelector(
+    (state: RootState) => state.selectedWords.selectedWords
+  );
 
   const handleSelect = (selectedWord: StoredWord) => {
     if (selectedWord.selected) {
@@ -47,14 +52,24 @@ const Dictionary = () => {
     const loadWords = async () => {
       try {
         const response = await axios.get(server);
-        setWords(response.data);
+        const loadedWords = response.data;
+        setWords(
+          loadedWords.map((word: StoredWord) => ({
+            ...word,
+            selected: selectedWords.some(
+              (selectedWord) => selectedWord._id === word._id
+            ),
+          }))
+        );
       } catch (error) {
         console.error("Error loading words", error);
       }
     };
 
     loadWords();
+  }, [selectedWords]);
 
+  useEffect(() => {
     setIsSubmitEnabled(
       !!newWord.hebrew && !!newWord.translation && !!newWord.transcription
     );
@@ -81,6 +96,9 @@ const Dictionary = () => {
     try {
       await axios.delete(`${server}/${wordId}`);
       setWords((prevWords) => prevWords.filter((word) => word._id !== wordId));
+      if (selectedWords.some((word) => word._id === wordId)) {
+        dispatch(removeWord(wordId));
+      }
     } catch (error) {
       console.error("Error deleting word", error);
     }
@@ -111,13 +129,16 @@ const Dictionary = () => {
           </button>
         </form>
 
+        <button onClick={() => {
+          words.forEach(word => handleSelect(word));
+        }}>Select all</button>
         <ul className="dictionary-list">
           {words.map((word) => (
             <li key={word._id} className={`${word.selected ? "selected" : ""}`}>
               <div className="dictionary-list-word">
-                <span>{word.hebrew}</span>
-                <span>{word.translation}</span>
-                <span>{word.transcription}</span>
+                <p>{word.hebrew}</p>
+                <p>{word.translation}</p>
+                <p>{word.transcription}</p>
               </div>
               <div className="dictionary-list-buttons">
                 <button onClick={() => handleSelect(word)}>

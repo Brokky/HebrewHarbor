@@ -1,10 +1,8 @@
 @import "../../variables.scss";
 
 .lesson {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 }
 
 .lesson-main {
@@ -12,6 +10,14 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+}
+
+.lesson-start {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    justify-content: center;
+    align-items: center;
 
   button {
     font-size: 6rem;
@@ -29,4 +35,21 @@
       border: 3px solid $background-color;
     }
   }
+}
+
+.lesson-box {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.lesson-word {
+  text-align: center;
+  font-size: 6rem;
+}
+
+.lesson-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
