@@ -6,7 +6,7 @@ const Navbar = () => {
 
   return (
     <nav>
-      {location.pathname !== "/" && <Link to="/">Home</Link>}
+      {location.pathname !== "/hebrew-harbor" && <Link to="/hebrew-harbor">Home</Link>}
       {location.pathname !== "/dictionary" && (
         <Link to="/dictionary">Dictionary</Link>
       )}

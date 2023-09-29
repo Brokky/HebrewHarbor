@@ -13,7 +13,7 @@ const inputFields = [
   { name: "transcription" as const, placeholder: "Transcription" },
 ];
 
-const server = "http://localhost:3000/words";
+const server = "http://13.53.38.63:3000/words";
 
 const Dictionary = () => {
   const dispatch = useDispatch();

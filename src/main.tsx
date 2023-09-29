@@ -10,7 +10,7 @@ import "./main.scss";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/hebrew-harbor",
     element: <Home />,
   },
   {
