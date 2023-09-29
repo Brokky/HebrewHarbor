@@ -13,7 +13,7 @@ const inputFields = [
   { name: "transcription" as const, placeholder: "Transcription" },
 ];
 
-const server = "http://13.53.38.63:3000/words";
+const server = "https://hebrew-harbor.duckdns.org/words";
 
 const Dictionary = () => {
   const dispatch = useDispatch();
