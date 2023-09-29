@@ -24,7 +24,6 @@ function getOptions(
   allWords: StoredWord[]
 ): StoredWord[] {
   let options = [correctWord];
-  console.log(correctWord);
 
   while (options.length < 4) {
     let randomWord = allWords[getRandom(0, allWords.length - 1)];
@@ -44,7 +43,7 @@ const Lesson = () => {
 
   const [isStarted, setIsStarted] = useState(false);
   const [remainingWords, setRemainingWords] = useState<StoredWord[]>([]);
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [disabledWords, setDisabledWords] = useState<StoredWord[]>([]);
   const [options, setOptions] = useState<StoredWord[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -62,19 +61,20 @@ const Lesson = () => {
 
   useEffect(() => {
     if (selectedWords.length >= 4 && remainingWords.length > 0) {
-      setOptions(getOptions(remainingWords[currentWordIndex], selectedWords));
-      console.log(remainingWords.length, currentWordIndex);
+      setOptions(getOptions(remainingWords[0], selectedWords));
     }
-  }, [remainingWords, currentWordIndex]);
+    
+    if (remainingWords.length === 0) {
+      setIsStarted(false);
+    }
+  }, [remainingWords]);
 
   const handleAnswer = (answer: StoredWord) => {
-    if (answer === remainingWords[currentWordIndex]) {
+    if (answer === remainingWords[0]) {
+      setDisabledWords([]);
       setRemainingWords((prev) => prev.filter((el) => el !== answer));
-      setCurrentWordIndex(0);
-      console.log("right", remainingWords.length);
     } else {
-      setCurrentWordIndex((prev) => (prev + 1) % remainingWords.length);
-      console.log("wrong", remainingWords.length);
+      setDisabledWords((prev) => [...prev, answer]);
     }
   };
 
@@ -90,13 +90,15 @@ const Lesson = () => {
         )}
         {isStarted && (
           <div className="lesson-box">
-            <p className="lesson-word">
-              {remainingWords[currentWordIndex]?.hebrew}
-            </p>
+            <p className="lesson-word">{remainingWords[0]?.hebrew}</p>
             <div className="lesson-buttons">
               {options.map((word) => {
                 return (
-                  <button key={word._id} onClick={() => handleAnswer(word)}>
+                  <button
+                    key={word._id}
+                    onClick={() => handleAnswer(word)}
+                    disabled={disabledWords.includes(word)}
+                  >
                     {word.translation}
                   </button>
                 );

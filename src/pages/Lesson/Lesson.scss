@@ -13,11 +13,11 @@
 }
 
 .lesson-start {
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  justify-content: center;
+  align-items: center;
 
   button {
     font-size: 6rem;
@@ -25,7 +25,7 @@
     background-color: $background-color;
     border: 3px solid $background-color;
     padding: $base-padding calc($base-padding * 3);
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     transition: background-color $transition-duration;
     cursor: pointer;
 
@@ -41,6 +41,9 @@
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  background-color: $background-color;
+  padding: $base-padding;
+  border-radius: 1rem;
 }
 
 .lesson-word {
@@ -52,4 +55,26 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+
+  button {
+    color: $primary-color;
+    background-color: $secondary-color;
+    border: 3px solid $secondary-color;
+    font-size: 1.5rem;
+    padding: $base-padding;
+    border-radius: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
+
+    &:disabled {
+        background-color: gray;
+        color: $primary-color;
+        border: 3px solid gray;
+        cursor: not-allowed;
+    }
+  }
 }
