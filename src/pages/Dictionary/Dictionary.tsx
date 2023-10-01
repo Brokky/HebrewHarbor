@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StoredWord } from "../../types";
 import Header from "../../components/Header/Header";
 import AddForm from "./parts/AddForm";
-import WordList from "./parts/WordList";
+import WordList from "./parts/WordList/WordList";
 import "./Dictionary.scss";
 
 const server = "https://hebrew-harbor.duckdns.org/words";

@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { NewWord, StoredWord } from "../../../types";
 
-type AddFormProps = {
+interface AddFormProps {
   server: string;
   setWords: React.Dispatch<React.SetStateAction<StoredWord[]>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
-};
+}
 
 const inputFields = [
   { name: "hebrew" as const, placeholder: "Hebrew" },
@@ -22,6 +22,12 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
     transcription: "",
     selected: false,
   });
+
+  useEffect(() => {
+    setIsSubmitEnabled(
+      !!newWord.hebrew && !!newWord.translation && !!newWord.transcription
+    );
+  }, [newWord]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,12 +46,6 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
       setError(`Error adding words: ${(error as Error).message}`);
     }
   };
-
-  useEffect(() => {
-    setIsSubmitEnabled(
-      !!newWord.hebrew && !!newWord.translation && !!newWord.transcription
-    );
-  }, [newWord]);
 
   return (
     <form className="dictionary-form" onSubmit={handleSubmit}>

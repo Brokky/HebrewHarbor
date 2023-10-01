@@ -1,16 +1,17 @@
-import { StoredWord } from "../../../types";
+import { StoredWord } from "../../../../types";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { addWord, removeWord } from "../../../selectedWordsSlice";
+import { RootState } from "../../../../store";
+import { addWord, removeWord } from "../../../../selectedWordsSlice";
 import axios from "axios";
 import { useEffect } from "react";
+import WordItem from "./parts/WordItem";
 
-type WordListProps = {
+interface WordListProps {
   server: string;
   words: StoredWord[];
   setWords: React.Dispatch<React.SetStateAction<StoredWord[]>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
-};
+}
 
 const WordList = ({ server, words, setWords, setError }: WordListProps) => {
   const dispatch = useDispatch();
@@ -79,23 +80,7 @@ const WordList = ({ server, words, setWords, setError }: WordListProps) => {
         Select all
       </button>
       <ul className="dictionary-list">
-        {words.map((word) => (
-          <li key={word._id} className={`${word.selected ? "selected" : ""}`}>
-            <div className="dictionary-list-word">
-              <p>{word.hebrew}</p>
-              <p>{word.translation}</p>
-              <p>{word.transcription}</p>
-            </div>
-            <div className="dictionary-list-buttons">
-              <button onClick={() => handleSelect(word)}>
-                {word.selected ? "Remove from Lesson" : "Add to Lesson"}
-              </button>
-              <button onClick={() => handleDelete(word._id)}>
-                Delete word
-              </button>
-            </div>
-          </li>
-        ))}
+        <WordItem words={words} handleSelect={handleSelect} handleDelete={handleDelete}/>
       </ul>
     </>
   );
