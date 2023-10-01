@@ -26,15 +26,15 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(server, newWord);
+      const response = await axios.post(server, newWord);
+      const addedWord = response.data;
+      setWords((prevWords) => [...prevWords, addedWord]);
       setNewWord({
         hebrew: "",
         translation: "",
         transcription: "",
         selected: false,
       });
-      const response = await axios.get(server);
-      setWords(response.data);
     } catch (error) {
       console.error("Error adding new word", error);
       setError(`Error adding words: ${(error as Error).message}`);
