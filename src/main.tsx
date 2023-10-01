@@ -4,7 +4,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import { store } from "./store";
 import { Provider } from "react-redux";
 import Home from "./pages/Home/Home";
-import Dictionary from "./pages/Dictiionary/Dictionary";
+import Dictionary from "./pages/Dictionary/Dictionary";
 import Lesson from "./pages/Lesson/Lesson";
 import "./main.scss";
 
