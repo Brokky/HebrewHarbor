@@ -91,6 +91,7 @@ const Lesson = () => {
         {isStarted && (
           <div className="lesson-box">
             <p className="lesson-word">{remainingWords[0]?.hebrew}</p>
+            <p className="lesson-word">{remainingWords[0]?.transcription}</p>
             <div className="lesson-buttons">
               {options.map((word) => {
                 return (
