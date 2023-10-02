@@ -4,7 +4,7 @@ import { RootState } from "../../../../store";
 import { addWord, removeWord } from "../../../../selectedWordsSlice";
 import axios from "axios";
 import { useEffect } from "react";
-import WordItem from "./parts/WordItem";
+import WordItem from "./parts/WordItem/WordItem";
 
 interface WordListProps {
   server: string;
@@ -33,6 +33,18 @@ const WordList = ({ server, words, setWords, setError }: WordListProps) => {
           : word
       )
     );
+  };
+
+  const handleUpdate = async (wordId: string, updatedWord: StoredWord) => {
+    try {
+      await axios.put(`${server}/${wordId}`, updatedWord);
+      setWords((prevWords) =>
+        prevWords.map((word) => (word._id === wordId ? updatedWord : word))
+      );
+    } catch (error) {
+      console.error("Error updating word", error);
+      setError(`Error updating word: ${(error as Error).message}`);
+    }
   };
 
   const handleDelete = async (wordId: string) => {
@@ -80,7 +92,12 @@ const WordList = ({ server, words, setWords, setError }: WordListProps) => {
         Select all
       </button>
       <ul className="dictionary-list">
-        <WordItem words={words} handleSelect={handleSelect} handleDelete={handleDelete}/>
+        <WordItem
+          words={words}
+          handleSelect={handleSelect}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
       </ul>
     </>
   );
