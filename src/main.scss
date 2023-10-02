@@ -7,6 +7,7 @@
   margin: 0;
   padding: 0;
   border: 0;
+  text-decoration: none;
 }
 
 html {
@@ -19,29 +20,50 @@ body {
   color: $text-color;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-align: center;
-  font-size: 3rem;
+}
+
+h1 {
+  font-size: 4rem;
 }
 
 h2 {
-  text-align: center;
   font-size: 2.5rem;
 }
 
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.7rem;
+}
+
+h5 {
+  font-size: 1.4rem;
+}
+
+h6 {
+  font-size: 1.2rem;
+}
+
 button {
-  font-size: 6rem;
-  color: $text-color;
-  background-color: $background-color;
-  border: 3px solid $background-color;
-  padding: $base-padding calc($base-padding * 3);
-  border-radius: 1rem;
-  transition: background-color $transition-duration;
-  cursor: pointer;
+  padding: $base-padding calc($base-padding * 2);
+  font-size: 1.5rem;
+  color: $primary-color;
+  background-color: $secondary-color;
+  border: 3px solid $secondary-color;
+  border-radius: 0.5rem;
+  transition: $transition-duration;
 
   &:hover {
-    background-color: $text-color;
-    color: $background-color;
-    border: 3px solid $background-color;
+    background-color: $primary-color;
+    color: $secondary-color;
   }
 }

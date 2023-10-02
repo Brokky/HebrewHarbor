@@ -8,15 +8,27 @@ nav {
   box-shadow: $box-shadow;
   margin: $base-margin;
   border-radius: 0.5rem;
+  column-gap: 1rem;
 
   a {
     font-size: 2rem;
-    color: $primary-color; 
+    letter-spacing: 0.2rem;
+    color: $primary-color;
     margin-right: $base-margin;
-    padding: 0.5rem;
+    padding: calc($base-padding / 2);
     border-radius: 0.5rem;
-    transition: background-color $transition-duration;
-    text-decoration: none;
+    transition: $transition-duration;
+
+    &.active {
+      color: $text-color;
+      font-weight: bold;
+      border-bottom: 0.3rem solid $text-color;
+
+      &:hover {
+        background-color: $primary-color;
+        color: $text-color;
+      }
+    }
 
     &:hover {
       background-color: $primary-color;

@@ -1,16 +1,12 @@
-import { useLocation, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
 
 const Navbar = () => {
-  let location = useLocation();
-
   return (
     <nav>
-      {location.pathname !== "/" && <Link to="/">Home</Link>}
-      {location.pathname !== "/dictionary" && (
-        <Link to="/dictionary">Dictionary</Link>
-      )}
-      {location.pathname !== "/lesson" && <Link to="/lesson">Lesson</Link>}
+      <NavLink to="/">Home</NavLink>
+      <NavLink to="/dictionary">Dictionary</NavLink>
+      <NavLink to="/lesson">Lesson</NavLink>
     </nav>
   );
 };
