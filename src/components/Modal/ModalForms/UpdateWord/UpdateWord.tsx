@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { StoredWord } from "../../../../../../../types";
-import "./UpdateWordModal.scss";
+import { StoredWord } from "../../../../types";
+import "./UpdateWord.scss";
 
 interface UpdateWordModalProps {
   word: StoredWord;
-  onClose: () => void;
   onUpdate: (wordId: string, updatedWord: StoredWord) => void;
+  onClose: () => void;
 }
 
 const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
@@ -19,7 +19,6 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
 
   return (
     <>
-      <div className="overlay"></div>
       <div className="modal">
         <form onSubmit={handleSubmit}>
           <label htmlFor="hebrew">Hebrew</label>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { StoredWord } from "../../../../../../types";
-import UpdateWordModal from "./parts/UpdateWordModal";
+import Modal from "../../../../../../components/Modal/Modal";
+import UpdateWord from "../../../../../../components/Modal/ModalForms/UpdateWord/UpdateWord";
+import DeleteWord from "../../../../../../components/Modal/ModalForms/DeleteWord/DeleteWord";
 
 interface WordItemProps {
   words: StoredWord[];
@@ -16,26 +18,47 @@ const WordItem = ({
   handleDelete,
 }: WordItemProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [currentModal, setCurrentModal] = useState<string | null>(null);
   const [currentWord, setCurrentWord] = useState<StoredWord | null>(null);
 
-  const openModal = (word: StoredWord) => {
+  const openModal = (word: StoredWord, modalForm: string) => {
     setCurrentWord(word);
     setModalOpen(true);
+    setCurrentModal(modalForm);
   };
 
   const closeModal = () => {
     setModalOpen(false);
   };
 
+  const renderModalContent = (): JSX.Element => {
+    if (!currentWord) return <div>Error</div>;
+
+    switch (currentModal) {
+      case "EDIT":
+        return (
+          <UpdateWord
+            word={currentWord}
+            onUpdate={handleUpdate}
+            onClose={closeModal}
+          />
+        );
+      case "DELETE":
+        return (
+          <DeleteWord
+            word={currentWord}
+            onDelete={handleDelete}
+            onClose={closeModal}
+          />
+        );
+      default:
+        return <div>Error</div>;
+    }
+  };
+
   return (
     <>
-      {isModalOpen && currentWord && (
-        <UpdateWordModal
-          word={currentWord}
-          onClose={closeModal}
-          onUpdate={handleUpdate}
-        />
-      )}
+      {isModalOpen && <Modal>{renderModalContent()}</Modal>}
       {words.map((word) => (
         <li key={word._id} className={`${word.selected ? "selected" : ""}`}>
           <div className="dictionary-list-word">
@@ -48,8 +71,8 @@ const WordItem = ({
               {word.selected ? "Remove from Lesson" : "Add to Lesson"}
             </button>
             <div className="dictionary-list-buttons-server">
-              <button onClick={() => openModal(word)}>Edit word</button>
-              <button onClick={() => handleDelete(word._id)}>
+              <button onClick={() => openModal(word, "EDIT")}>Edit word</button>
+              <button onClick={() => openModal(word, "DELETE")}>
                 Delete word
               </button>
             </div>
