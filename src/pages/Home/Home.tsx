@@ -6,8 +6,8 @@ const Home = () => {
     <div className="home">
       <Header title={"Hebrew Harbor"} />
       <main className="home-main">
-        <section className="info">
-          <section className="about">
+        <section className="home-info">
+          <section className="home-about">
             <h2>About Us</h2>
             <p>
               We are dedicated to providing the best resources for learning
@@ -15,7 +15,7 @@ const Home = () => {
               something for you.
             </p>
           </section>
-          <section className="how-it-works">
+          <section className="home-how-it-works">
             <h2>How It Works</h2>
             <p>
               Begin by adding words, along with their translations and
