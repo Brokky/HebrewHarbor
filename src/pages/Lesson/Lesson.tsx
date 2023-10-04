@@ -46,6 +46,8 @@ const Lesson = () => {
   const [disabledWords, setDisabledWords] = useState<StoredWord[]>([]);
   const [options, setOptions] = useState<StoredWord[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [time, setTime] = useState(0);
+  const [intervalId, setIntervalId] = useState<null | number>(null);
 
   const handleStart = () => {
     if (selectedWords.length < 4) {
@@ -56,6 +58,10 @@ const Lesson = () => {
       setIsStarted(true);
       setRemainingWords(shuffleArray([...selectedWords]));
       setErrorMessage(null);
+      const id = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+      setIntervalId(id);
     }
   };
 
@@ -63,9 +69,12 @@ const Lesson = () => {
     if (selectedWords.length >= 4 && remainingWords.length > 0) {
       setOptions(getOptions(remainingWords[0], selectedWords));
     }
-    
+
     if (remainingWords.length === 0) {
       setIsStarted(false);
+      clearInterval(intervalId!);
+      setTime(0);
+      setIntervalId(null);
     }
   }, [remainingWords]);
 
@@ -76,6 +85,14 @@ const Lesson = () => {
     } else {
       setDisabledWords((prev) => [...prev, answer]);
     }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
   };
 
   return (
@@ -89,23 +106,26 @@ const Lesson = () => {
           </div>
         )}
         {isStarted && (
-          <div className="lesson-box">
-            <p className="lesson-word">{remainingWords[0]?.hebrew}</p>
-            <p className="lesson-word">{remainingWords[0]?.transcription}</p>
-            <div className="lesson-buttons">
-              {options.map((word) => {
-                return (
-                  <button
-                    key={word._id}
-                    onClick={() => handleAnswer(word)}
-                    disabled={disabledWords.includes(word)}
-                  >
-                    {word.translation}
-                  </button>
-                );
-              })}
+          <>
+            <div className="lesson-timer">{formatTime(time)}</div>
+            <div className="lesson-box">
+              <p className="lesson-word">{remainingWords[0]?.hebrew}</p>
+              <p className="lesson-word">{remainingWords[0]?.transcription}</p>
+              <div className="lesson-buttons">
+                {options.map((word) => {
+                  return (
+                    <button
+                      key={word._id}
+                      onClick={() => handleAnswer(word)}
+                      disabled={disabledWords.includes(word)}
+                    >
+                      {word.translation}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          </>
         )}
       </main>
     </div>

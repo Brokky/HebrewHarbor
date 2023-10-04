@@ -7,9 +7,9 @@
 
 .lesson-main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  flex-grow: 1;
+  row-gap: 1rem;
 }
 
 .lesson-start {
@@ -18,23 +18,13 @@
   row-gap: 1rem;
   justify-content: center;
   align-items: center;
+}
 
-  button {
-    font-size: 6rem;
-    color: $text-color;
-    background-color: $background-color;
-    border: 3px solid $background-color;
-    padding: $base-padding calc($base-padding * 3);
-    border-radius: 1rem;
-    transition: background-color $transition-duration;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $text-color;
-      color: $background-color;
-      border: 3px solid $background-color;
-    }
-  }
+.lesson-timer {
+  background-color: $background-color;
+  padding: $base-padding;
+  border-radius: 0.5rem;
+  font-size: 3rem;
 }
 
 .lesson-box {
