@@ -83,34 +83,42 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
     <form className="dictionary-form" onSubmit={handleSubmit}>
       <fieldset className="dictionary-form-fieldset">
         <legend>Brave new word</legend>
-        {inputFields.map((field) => (
-          <input
-            key={field.name}
-            type="text"
-            placeholder={field.placeholder}
-            value={newWord[field.name]}
-            onChange={(e) =>
-              setNewWord({ ...newWord, [field.name]: e.target.value })
-            }
-          />
-        ))}
-        {selectFields.map((field) => (
-          <select
-            name={field.name}
-            onChange={handleSelect}
-            value={(newWord as any)[field.name]} // use it for reset to defaults when form is submitted
-          >
-            <option selected disabled value="">
-              {field.placeholder}
-            </option>
-            {field.options.map((option) => (
-              <option value={option.toLowerCase()}>{option}</option>
-            ))}
-          </select>
-        ))}
+        <div className="dictionary-form-fieldset-inputs">
+          {inputFields.map((field) => (
+            <input
+              key={field.name}
+              type="text"
+              placeholder={field.placeholder}
+              value={newWord[field.name]}
+              onChange={(e) =>
+                setNewWord({ ...newWord, [field.name]: e.target.value })
+              }
+            />
+          ))}
+        </div>
+        <div className="dictionary-form-fieldset-selects">
+          {selectFields.map((field) => (
+            <select
+              name={field.name}
+              onChange={handleSelect}
+              value={(newWord as any)[field.name]} // use it for reset to defaults when form is submitted
+            >
+              <option selected disabled value="">
+                {field.placeholder}
+              </option>
+              {field.options.map((option) => (
+                <option value={option.toLowerCase()}>{option}</option>
+              ))}
+            </select>
+          ))}
+        </div>
       </fieldset>
 
-      <button type="submit" disabled={!isSubmitEnabled}>
+      <button
+        className="dictionary-form-button"
+        type="submit"
+        disabled={!isSubmitEnabled}
+      >
         Add to Dictionary
       </button>
     </form>

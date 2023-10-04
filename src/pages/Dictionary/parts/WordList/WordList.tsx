@@ -5,6 +5,7 @@ import { addWord, removeWord } from "../../../../selectedWordsSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import WordItem from "./parts/WordItem/WordItem";
+import "./WordList.scss";
 
 interface WordListProps {
   server: string;

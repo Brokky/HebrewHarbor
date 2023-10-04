@@ -3,6 +3,7 @@ import { StoredWord } from "../../../../../../types";
 import Modal from "../../../../../../components/Modal/Modal";
 import UpdateWord from "../../../../../../components/Modal/ModalForms/UpdateWord/UpdateWord";
 import DeleteWord from "../../../../../../components/Modal/ModalForms/DeleteWord/DeleteWord";
+import "./WordItem.scss";
 
 interface WordItemProps {
   words: StoredWord[];

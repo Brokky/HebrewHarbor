@@ -9,18 +9,6 @@
   padding: calc($base-padding * 2) $base-padding;
   background-color: $background-color;
   border-radius: 1rem;
-
-  button {
-    color: $primary-color;
-    background-color: $secondary-color;
-    border: 3px solid $secondary-color;
-
-    &:hover {
-      background-color: $primary-color;
-      color: $secondary-color;
-      border: 3px solid $secondary-color;
-    }
-  }
 }
 
 .dictionary-form-fieldset {
@@ -29,16 +17,61 @@
   row-gap: 1rem;
 
   legend {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
   }
 
-  input, select {
+  input,
+  select {
     font-size: 1.3rem;
     text-align: center;
     border-radius: 0.5rem;
     padding: calc($base-padding / 2);
+  }
+}
+
+.dictionary-form-fieldset-inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.dictionary-form-fieldset-selects {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.dictionary-form-button {
+  color: $primary-color;
+  background-color: $secondary-color;
+  border: 3px solid $secondary-color;
+
+  &:hover {
+    background-color: $primary-color;
+    color: $secondary-color;
+    border: 3px solid $secondary-color;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    background-color: lightgray;
+    border: 3px solid lightgray;
+    color: $text-color;
+  }
+}
+
+@media (min-width: 700px) {
+  .dictionary-form-fieldset {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 2rem;
+
+    div {
+      width: 30%;
+    }
   }
 }

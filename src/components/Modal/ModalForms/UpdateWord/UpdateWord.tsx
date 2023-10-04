@@ -56,7 +56,7 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
               setUpdatedWord({ ...updatedWord, partOfSpeech: e.target.value })
             }
           >
-            <option disabled value="">Part of speech</option>
+            <option disabled value=""></option>
             <option value="noun">Noun</option>
             <option value="verb">Verb</option>
             <option value="adjective">Adjective</option>
@@ -69,7 +69,7 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
               setUpdatedWord({ ...updatedWord, gender: e.target.value })
             }
           >
-            <option disabled value="">Gender</option>
+            <option disabled value=""></option>
             <option value="masculine">Masculine</option>
             <option value="feminine">Feminine</option>
             <option value="neuter">Neuter</option>
@@ -82,7 +82,7 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
               setUpdatedWord({ ...updatedWord, number: e.target.value })
             }
           >
-            <option disabled value="">Number</option>
+            <option disabled value=""></option>
             <option value="singular">Singular</option>
             <option value="plural">Plural</option>
           </select>
