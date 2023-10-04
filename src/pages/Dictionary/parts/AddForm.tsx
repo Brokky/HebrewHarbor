@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NewWord, StoredWord } from "../../../types";
+import "./AddForm.scss";
 
 interface AddFormProps {
   server: string;
@@ -9,9 +10,31 @@ interface AddFormProps {
 }
 
 const inputFields = [
-  { name: "hebrew" as const, placeholder: "Hebrew" },
-  { name: "translation" as const, placeholder: "Translation" },
-  { name: "transcription" as const, placeholder: "Transcription" },
+  { name: "hebrew" as const, type: "text", placeholder: "Hebrew*" },
+  { name: "translation" as const, type: "text", placeholder: "Translation*" },
+  {
+    name: "transcription" as const,
+    type: "text",
+    placeholder: "Transcription",
+  },
+];
+
+const selectFields = [
+  {
+    name: "partOfSpeech",
+    options: ["Noun", "Verb", "Adjective"],
+    placeholder: "Part of speech",
+  },
+  {
+    name: "gender",
+    options: ["Masculine", "Feminine", "Neuter"],
+    placeholder: "Gender",
+  },
+  {
+    name: "number",
+    options: ["Singular", "Plural"],
+    placeholder: "Number",
+  },
 ];
 
 const AddForm = ({ server, setWords, setError }: AddFormProps) => {
@@ -20,13 +43,14 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
     hebrew: "",
     translation: "",
     transcription: "",
+    partOfSpeech: "",
+    gender: "",
+    number: "",
     selected: false,
   });
 
   useEffect(() => {
-    setIsSubmitEnabled(
-      !!newWord.hebrew && !!newWord.translation && !!newWord.transcription
-    );
+    setIsSubmitEnabled(!!newWord.hebrew && !!newWord.translation);
   }, [newWord]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,12 +63,20 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
         hebrew: "",
         translation: "",
         transcription: "",
+        partOfSpeech: "",
+        gender: "",
+        number: "",
         selected: false,
       });
     } catch (error) {
       console.error("Error adding new word", error);
       setError(`Error adding words: ${(error as Error).message}`);
     }
+  };
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewWord({ ...newWord, [name]: value });
   };
 
   return (
@@ -61,6 +93,20 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
               setNewWord({ ...newWord, [field.name]: e.target.value })
             }
           />
+        ))}
+        {selectFields.map((field) => (
+          <select
+            name={field.name}
+            onChange={handleSelect}
+            value={(newWord as any)[field.name]} // use it for reset to defaults when form is submitted
+          >
+            <option selected disabled value="">
+              {field.placeholder}
+            </option>
+            {field.options.map((option) => (
+              <option value={option.toLowerCase()}>{option}</option>
+            ))}
+          </select>
         ))}
       </fieldset>
 

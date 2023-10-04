@@ -48,6 +48,44 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
               setUpdatedWord({ ...updatedWord, transcription: e.target.value })
             }
           />
+          <label htmlFor="partOfSpeech">Part of speech</label>
+          <select
+            id="partOfSpeech"
+            value={updatedWord.partOfSpeech}
+            onChange={(e) =>
+              setUpdatedWord({ ...updatedWord, partOfSpeech: e.target.value })
+            }
+          >
+            <option disabled value="">Part of speech</option>
+            <option value="noun">Noun</option>
+            <option value="verb">Verb</option>
+            <option value="adjective">Adjective</option>
+          </select>
+          <label htmlFor="gender">Gender</label>
+          <select
+            id="gender"
+            value={updatedWord.gender}
+            onChange={(e) =>
+              setUpdatedWord({ ...updatedWord, gender: e.target.value })
+            }
+          >
+            <option disabled value="">Gender</option>
+            <option value="masculine">Masculine</option>
+            <option value="feminine">Feminine</option>
+            <option value="neuter">Neuter</option>
+          </select>
+          <label htmlFor="number">Number</label>
+          <select
+            id="number"
+            value={updatedWord.number}
+            onChange={(e) =>
+              setUpdatedWord({ ...updatedWord, number: e.target.value })
+            }
+          >
+            <option disabled value="">Number</option>
+            <option value="singular">Singular</option>
+            <option value="plural">Plural</option>
+          </select>
           <button type="submit">Update</button>
           <button type="button" onClick={onClose}>
             Cancel
