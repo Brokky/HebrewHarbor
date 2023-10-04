@@ -42,6 +42,7 @@ const Lesson = () => {
   );
 
   const [isStarted, setIsStarted] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [remainingWords, setRemainingWords] = useState<StoredWord[]>([]);
   const [disabledWords, setDisabledWords] = useState<StoredWord[]>([]);
   const [options, setOptions] = useState<StoredWord[]>([]);
@@ -70,7 +71,8 @@ const Lesson = () => {
       setOptions(getOptions(remainingWords[0], selectedWords));
     }
 
-    if (remainingWords.length === 0) {
+    if (remainingWords.length === 0 && isStarted) {
+      setIsFinished(true);
       setIsStarted(false);
       clearInterval(intervalId!);
       setTime(0);
@@ -99,7 +101,7 @@ const Lesson = () => {
     <div className="lesson">
       <Header title={"Lesson"} />
       <main className="lesson-main">
-        {!isStarted && (
+        {!isStarted && !isFinished && (
           <div className="lesson-start">
             {!isStarted && <button onClick={handleStart}>Start</button>}
             {errorMessage && <p className="lesson-error">{errorMessage}</p>}
@@ -126,6 +128,11 @@ const Lesson = () => {
               </div>
             </div>
           </>
+        )}
+        {isFinished && (
+          <div className="lesson-stats">
+            <h2>Stats</h2>
+          </div>
         )}
       </main>
     </div>
