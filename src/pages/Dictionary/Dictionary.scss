@@ -57,12 +57,13 @@
 }
 
 .dictionary-list-word {
+  text-align: center;
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  column-gap: 1rem;
+  row-gap: 1rem;
 }
 
 .dictionary-list-buttons {

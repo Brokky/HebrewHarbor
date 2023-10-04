@@ -64,7 +64,6 @@ const WordItem = ({
           <div className="dictionary-list-word">
             <p>{word.hebrew}</p>
             <p>{word.translation}</p>
-            <p>{word.transcription}</p>
           </div>
           <div className="dictionary-list-buttons">
             <button onClick={() => handleSelect(word)}>
