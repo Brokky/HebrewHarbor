@@ -61,20 +61,23 @@ const WordItem = ({
     <>
       {isModalOpen && <Modal>{renderModalContent()}</Modal>}
       {words.map((word) => (
-        <li key={word._id} className={`dictionary-list-card ${word.selected ? "selected" : ""}`}>
+        <li
+          key={word._id}
+          className={`dictionary-list-card ${word.selected ? "selected" : ""}`}
+        >
           <div className="dictionary-list-card-word">
             <p className="dictionary-list-card-word-hebrew">{word.hebrew}</p>
-            <p className="dictionary-list-card-word-translation">{word.translation}</p>
+            <p className="dictionary-list-card-word-translation">
+              {word.translation}
+            </p>
           </div>
           <div className="dictionary-list-card-buttons">
             <button onClick={() => handleSelect(word)}>
               {word.selected ? "Remove from Lesson" : "Add to Lesson"}
             </button>
             <div className="dictionary-list-card-buttons-server">
-              <button onClick={() => openModal(word, "EDIT")}>Edit word</button>
-              <button onClick={() => openModal(word, "DELETE")}>
-                Delete word
-              </button>
+              <button onClick={() => openModal(word, "EDIT")}>Edit</button>
+              <button onClick={() => openModal(word, "DELETE")}>Delete</button>
             </div>
           </div>
         </li>
