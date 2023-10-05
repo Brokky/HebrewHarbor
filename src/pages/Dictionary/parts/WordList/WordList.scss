@@ -10,22 +10,4 @@
   padding: $base-padding;
   font-size: 1.5rem;
   border-radius: 0.5rem;
-
-  li {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    row-gap: 1rem;
-
-    background-color: $text-color;
-    color: $background-color;
-    border-radius: 0.5rem;
-    padding: $base-padding;
-    transition: 1000ms;
-  }
-
-  .selected {
-    background-color: #035334;
-  }
 }

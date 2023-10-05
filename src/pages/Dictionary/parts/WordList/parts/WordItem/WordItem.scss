@@ -1,5 +1,19 @@
 @import "../../../../../../variables";
 
+.dictionary-list-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 1rem;
+
+  background-color: $text-color;
+  color: $background-color;
+  border-radius: 0.5rem;
+  padding: $base-padding;
+  transition: 1000ms;
+}
+
 .dictionary-list-card-word {
   text-align: center;
   width: 100%;
@@ -20,7 +34,7 @@
 }
 
 .dictionary-list-card-word-translation {
-    font-style: italic;
+  font-style: italic;
 }
 
 .dictionary-list-card-buttons {
@@ -40,4 +54,8 @@
   button {
     width: 50%;
   }
+}
+
+.selected {
+  background-color: #035334;
 }

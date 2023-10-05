@@ -61,7 +61,7 @@ const WordItem = ({
     <>
       {isModalOpen && <Modal>{renderModalContent()}</Modal>}
       {words.map((word) => (
-        <li key={word._id} className={`dictionary-list-card${word.selected ? "selected" : ""}`}>
+        <li key={word._id} className={`dictionary-list-card ${word.selected ? "selected" : ""}`}>
           <div className="dictionary-list-card-word">
             <p className="dictionary-list-card-word-hebrew">{word.hebrew}</p>
             <p className="dictionary-list-card-word-translation">{word.translation}</p>
