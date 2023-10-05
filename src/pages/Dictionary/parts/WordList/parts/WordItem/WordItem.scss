@@ -1,33 +1,61 @@
 @import "../../../../../../variables";
 
 .dictionary-list-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  row-gap: 1rem;
+  min-height: 400px;
+  transform-style: preserve-3d;
+  position: relative;
 
   background-color: $text-color;
   color: $background-color;
   border-radius: 0.5rem;
+  transition: 1200ms;
+  border: 0.2rem solid $secondary-color;
+
+  &:hover {
+    transform: rotateY(180deg);
+  }
+}
+
+.dictionary-list-card-front {
   padding: $base-padding;
-  transition: 1000ms;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.dictionary-list-card-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: $base-padding;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  overflow: hidden;
 }
 
 .dictionary-list-card-word {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   row-gap: 1rem;
+  height: 100%;
 }
 
 .dictionary-list-card-word-hebrew {
   color: $secondary-color;
-  font-size: 2rem;
+  font-size: 4.5rem;
   font-weight: bold;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.2rem;
   text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color,
     0 -1px $primary-color;
 }
@@ -58,4 +86,13 @@
 
 .selected {
   background-color: #035334;
+}
+
+.dictionary-list-card-word-transcription {
+  letter-spacing: 0.1rem;
+  color: $primary-color;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: -1px 0 $secondary-color, 0 1px $secondary-color, 1px 0 $secondary-color,
+    0 -1px $secondary-color;
 }

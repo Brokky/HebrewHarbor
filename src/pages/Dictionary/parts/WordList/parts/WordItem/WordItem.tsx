@@ -65,19 +65,38 @@ const WordItem = ({
           key={word._id}
           className={`dictionary-list-card ${word.selected ? "selected" : ""}`}
         >
-          <div className="dictionary-list-card-word">
-            <p className="dictionary-list-card-word-hebrew">{word.hebrew}</p>
-            <p className="dictionary-list-card-word-translation">
-              {word.translation}
-            </p>
+          <div className="dictionary-list-card-front">
+            <div className="dictionary-list-card-word">
+              <div className="dictionary-list-card-word-main"></div>
+              <p className="dictionary-list-card-word-hebrew">{word.hebrew}</p>
+              <p className="dictionary-list-card-word-transcription">{word.transcription}</p>
+              <p className="dictionary-list-card-word-translation">
+                {word.translation}
+              </p>
+            </div>
           </div>
-          <div className="dictionary-list-card-buttons">
-            <button onClick={() => handleSelect(word)}>
-              {word.selected ? "Remove from Lesson" : "Add to Lesson"}
-            </button>
-            <div className="dictionary-list-card-buttons-server">
-              <button onClick={() => openModal(word, "EDIT")}>Edit</button>
-              <button onClick={() => openModal(word, "DELETE")}>Delete</button>
+          <div className="dictionary-list-card-back">
+            <div className="dictionary-list-card-word">
+              <p className="dictionary-list-card-word-translation">
+                {word.partOfSpeech || "Part of speech"}
+              </p>
+              <p className="dictionary-list-card-word-translation">
+                {word.gender || "Gender"}
+              </p>
+              <p className="dictionary-list-card-word-translation">
+                {word.number || "Number"}
+              </p>
+            </div>
+            <div className="dictionary-list-card-buttons">
+              <button onClick={() => handleSelect(word)}>
+                {word.selected ? "Remove from Lesson" : "Add to Lesson"}
+              </button>
+              <div className="dictionary-list-card-buttons-server">
+                <button onClick={() => openModal(word, "EDIT")}>Edit</button>
+                <button onClick={() => openModal(word, "DELETE")}>
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </li>
