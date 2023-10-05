@@ -64,7 +64,7 @@ const WordItem = ({
         <li key={word._id} className={`${word.selected ? "selected" : ""}`}>
           <div className="dictionary-list-word">
             <p className="dictionary-list-word-hebrew">{word.hebrew}</p>
-            <p>{word.translation}</p>
+            <p className="dictionary-list-word-translation">{word.translation}</p>
           </div>
           <div className="dictionary-list-buttons">
             <button onClick={() => handleSelect(word)}>

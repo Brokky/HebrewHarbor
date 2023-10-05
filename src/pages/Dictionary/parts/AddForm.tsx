@@ -22,18 +22,15 @@ const inputFields = [
 const selectFields = [
   {
     name: "partOfSpeech",
-    options: ["Noun", "Verb", "Adjective"],
-    placeholder: "Part of speech",
+    options: ["Part of speech", "Noun", "Verb", "Adjective"],
   },
   {
     name: "gender",
-    options: ["Masculine", "Feminine", "Neuter"],
-    placeholder: "Gender",
+    options: ["Gender", "Masculine", "Feminine", "Neuter"],
   },
   {
     name: "number",
-    options: ["Singular", "Plural"],
-    placeholder: "Number",
+    options: ["Number", "Singular", "Plural"],
   },
 ];
 
@@ -99,15 +96,19 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
         <div className="dictionary-form-fieldset-selects">
           {selectFields.map((field) => (
             <select
+              key={field.name}
               name={field.name}
               onChange={handleSelect}
               value={(newWord as any)[field.name]} // use it for reset to defaults when form is submitted
             >
-              <option selected disabled value="">
-                {field.placeholder}
-              </option>
-              {field.options.map((option) => (
-                <option value={option.toLowerCase()}>{option}</option>
+              {field.options.map((option, index) => (
+                <option
+                  key={option.toLowerCase()}
+                  value={index === 0 ? "" : option.toLowerCase()}
+                  disabled={index === 0}
+                >
+                  {option}
+                </option>
               ))}
             </select>
           ))}

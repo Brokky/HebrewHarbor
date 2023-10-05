@@ -2,14 +2,46 @@ import { useState } from "react";
 import { StoredWord } from "../../../../types";
 import "./UpdateWord.scss";
 
-interface UpdateWordModalProps {
+interface UpdateWordProps {
   word: StoredWord;
   onUpdate: (wordId: string, updatedWord: StoredWord) => void;
   onClose: () => void;
 }
 
-const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
+// to make labels look good
+const camelCaseToNormalText = (text: string) => {
+  return text
+    .replace(/([A-Z])/g, " $1")
+    .toLowerCase()
+    .replace(/^./, (str) => str.toUpperCase());
+};
+
+const UpdateWord = ({ word, onClose, onUpdate }: UpdateWordProps) => {
   const [updatedWord, setUpdatedWord] = useState(word);
+
+  const inputFields = [
+    { id: "hebrew", type: "text", value: updatedWord.hebrew },
+    { id: "translation", type: "text", value: updatedWord.translation },
+    { id: "transcription", type: "text", value: updatedWord.transcription },
+  ];
+
+  const selectFields = [
+    {
+      id: "partOfSpeech",
+      value: updatedWord.partOfSpeech,
+      options: ["noun", "verb", "adjective"],
+    },
+    {
+      id: "gender",
+      value: updatedWord.gender,
+      options: ["masculine", "feminine", "neuter"],
+    },
+    {
+      id: "number",
+      value: updatedWord.number,
+      options: ["singular", "plural"],
+    },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,71 +53,44 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
     <>
       <div className="modal">
         <form onSubmit={handleSubmit}>
-          <label htmlFor="hebrew">Hebrew</label>
-          <input
-            id="hebrew"
-            type="text"
-            value={updatedWord.hebrew}
-            onChange={(e) =>
-              setUpdatedWord({ ...updatedWord, hebrew: e.target.value })
-            }
-          />
-          <label htmlFor="translation">Translation</label>
-          <input
-            id="translation"
-            type="text"
-            value={updatedWord.translation}
-            onChange={(e) =>
-              setUpdatedWord({ ...updatedWord, translation: e.target.value })
-            }
-          />
-          <label htmlFor="transcription">Transcription</label>
-          <input
-            id="transcription"
-            type="text"
-            value={updatedWord.transcription}
-            onChange={(e) =>
-              setUpdatedWord({ ...updatedWord, transcription: e.target.value })
-            }
-          />
-          <label htmlFor="partOfSpeech">Part of speech</label>
-          <select
-            id="partOfSpeech"
-            value={updatedWord.partOfSpeech}
-            onChange={(e) =>
-              setUpdatedWord({ ...updatedWord, partOfSpeech: e.target.value })
-            }
-          >
-            <option disabled value=""></option>
-            <option value="noun">Noun</option>
-            <option value="verb">Verb</option>
-            <option value="adjective">Adjective</option>
-          </select>
-          <label htmlFor="gender">Gender</label>
-          <select
-            id="gender"
-            value={updatedWord.gender}
-            onChange={(e) =>
-              setUpdatedWord({ ...updatedWord, gender: e.target.value })
-            }
-          >
-            <option disabled value=""></option>
-            <option value="masculine">Masculine</option>
-            <option value="feminine">Feminine</option>
-            <option value="neuter">Neuter</option>
-          </select>
-          <label htmlFor="number">Number</label>
-          <select
-            id="number"
-            value={updatedWord.number}
-            onChange={(e) =>
-              setUpdatedWord({ ...updatedWord, number: e.target.value })
-            }
-          >
-            <option disabled value=""></option>
-            <option value="singular">Singular</option>
-            <option value="plural">Plural</option>
-          </select>
+          {inputFields.map((field) => (
+            <>
+              <label htmlFor={field.id}>
+                {camelCaseToNormalText(field.id)}
+              </label>
+              <input
+                id={field.id}
+                type={field.type}
+                value={field.value}
+                onChange={(e) =>
+                  setUpdatedWord({ ...updatedWord, [field.id]: e.target.value })
+                }
+              />
+            </>
+          ))}
+
+          {selectFields.map((field) => (
+            <>
+              <label htmlFor={field.id}>
+                {camelCaseToNormalText(field.id)}
+              </label>
+              <select
+                id={field.id}
+                value={field.value}
+                onChange={(e) =>
+                  setUpdatedWord({ ...updatedWord, [field.id]: e.target.value })
+                }
+              >
+                <option disabled value=""></option>
+                {field.options.map((option) => (
+                  <option key={option} value={option.toLowerCase()}>
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </>
+          ))}
+
           <button type="submit">Update</button>
           <button type="button" onClick={onClose}>
             Cancel
@@ -96,4 +101,4 @@ const UpdateWordModal = ({ word, onClose, onUpdate }: UpdateWordModalProps) => {
   );
 };
 
-export default UpdateWordModal;
+export default UpdateWord;
