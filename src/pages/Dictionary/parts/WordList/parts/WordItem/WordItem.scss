@@ -10,6 +10,15 @@
   row-gap: 1rem;
 }
 
+.dictionary-list-word-hebrew {
+  color: $secondary-color;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-shadow: -1px 0 $primary-color, 0 1px $primary-color, 1px 0 $primary-color,
+    0 -1px $primary-color;
+}
+
 .dictionary-list-buttons {
   display: flex;
   flex-direction: column;

@@ -63,7 +63,7 @@ const WordItem = ({
       {words.map((word) => (
         <li key={word._id} className={`${word.selected ? "selected" : ""}`}>
           <div className="dictionary-list-word">
-            <p>{word.hebrew}</p>
+            <p className="dictionary-list-word-hebrew">{word.hebrew}</p>
             <p>{word.translation}</p>
           </div>
           <div className="dictionary-list-buttons">
