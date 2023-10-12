@@ -4,6 +4,13 @@ import { RootState } from "../../store";
 import Header from "../../components/Header/Header";
 import "./Lesson.scss";
 import { StoredWord } from "../../types";
+import GuessWord from "./Games/GuessWord/GuessWord";
+
+interface GameStatus {
+  isStarted: boolean;
+  isFinished: boolean;
+  typeOfGame: string | null;
+}
 
 function getRandom(min: number, max: number): number {
   min = Math.ceil(min);
@@ -41,8 +48,13 @@ const Lesson = () => {
     (state: RootState) => state.selectedWords.selectedWords
   );
 
-  const [isStarted, setIsStarted] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
+  const [gameStatus, setGameStatus] = useState<GameStatus>({
+    isStarted: false,
+    isFinished: false,
+    typeOfGame: null,
+  });
+  const { isStarted, isFinished, typeOfGame } = gameStatus;
+
   const [remainingWords, setRemainingWords] = useState<StoredWord[]>([]);
   const [disabledWords, setDisabledWords] = useState<StoredWord[]>([]);
   const [options, setOptions] = useState<StoredWord[]>([]);
@@ -50,13 +62,13 @@ const Lesson = () => {
   const [time, setTime] = useState(0);
   const [intervalId, setIntervalId] = useState<null | number>(null);
 
-  const handleStart = () => {
+  const handleStart = (type: string) => {
     if (selectedWords.length < 4) {
       setErrorMessage(
         "It is necessary to select a minimum of 4 words at Dictionary page to start the lesson."
       );
     } else {
-      setIsStarted(true);
+      setGameStatus((prev) => ({ ...prev, isStarted: true, typeOfGame: type }));
       setRemainingWords(shuffleArray([...selectedWords]));
       setErrorMessage(null);
       const id = setInterval(() => {
@@ -72,8 +84,12 @@ const Lesson = () => {
     }
 
     if (remainingWords.length === 0 && isStarted) {
-      setIsFinished(true);
-      setIsStarted(false);
+      setGameStatus((prev) => ({
+        ...prev,
+        isFinished: true,
+        isStarted: false,
+        typeOfGame: null,
+      }));
       clearInterval(intervalId!);
       setTime(0);
       setIntervalId(null);
@@ -103,31 +119,40 @@ const Lesson = () => {
       <main className="lesson-main">
         {!isStarted && !isFinished && (
           <div className="lesson-start">
-            {!isStarted && <button onClick={handleStart}>Start</button>}
+            <div>
+              <div className="lesson-words">
+                <h2>Your words</h2>
+                <ul className="lesson-words-list">
+                  {selectedWords.map((word) => (
+                    <li key={word._id}>{word.hebrew}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="lesson-game-starters">
+                <button onClick={() => handleStart("WORD")}>Guess Word</button>
+                <button onClick={() => handleStart("TRANSLATION")}>
+                  Guess Translation
+                </button>
+              </div>
+            </div>
             {errorMessage && <p className="lesson-error">{errorMessage}</p>}
           </div>
         )}
-        {isStarted && (
-          <>
-            <div className="lesson-timer">{formatTime(time)}</div>
-            <div className="lesson-box">
-              <p className="lesson-word">{remainingWords[0]?.hebrew}</p>
-              <p className="lesson-word">{remainingWords[0]?.transcription}</p>
-              <div className="lesson-buttons">
-                {options.map((word) => {
-                  return (
-                    <button
-                      key={word._id}
-                      onClick={() => handleAnswer(word)}
-                      disabled={disabledWords.includes(word)}
-                    >
-                      {word.translation}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </>
+        {isStarted && typeOfGame === "WORD" && (
+          <GuessWord
+            time={time}
+            remainingWords={remainingWords}
+            disabledWords={disabledWords}
+            options={options}
+            formatTime={formatTime}
+            handleAnswer={handleAnswer}
+          />
+        )}
+        {isStarted && typeOfGame === "TRANSLATION" && (
+          <div style={{display: "flex", }}>
+            <p> Not ready yet... {":("}</p>
+            <button onClick={() => handleStart("WORD")}>Guess Word</button>
+          </div>
         )}
         {isFinished && (
           <div className="lesson-stats">

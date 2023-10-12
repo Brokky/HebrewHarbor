@@ -24,6 +24,7 @@ nav {
     transition: $transition-duration;
     background-color: $primary-color;
     color: $secondary-color;
+    overflow: hidden;
     
 
     &.active {
