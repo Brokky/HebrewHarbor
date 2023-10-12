@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import "./Lesson.scss";
 import { StoredWord } from "../../types";
 import GuessWord from "./Games/GuessWord/GuessWord";
+import GuessTranslation from "./Games/GuessTranslation/GuessTranslation";
 
 interface GameStatus {
   isStarted: boolean;
@@ -149,10 +150,14 @@ const Lesson = () => {
           />
         )}
         {isStarted && typeOfGame === "TRANSLATION" && (
-          <div style={{display: "flex", }}>
-            <p> Not ready yet... {":("}</p>
-            <button onClick={() => handleStart("WORD")}>Guess Word</button>
-          </div>
+          <GuessTranslation
+            time={time}
+            remainingWords={remainingWords}
+            disabledWords={disabledWords}
+            options={options}
+            formatTime={formatTime}
+            handleAnswer={handleAnswer}
+          />
         )}
         {isFinished && (
           <div className="lesson-stats">
