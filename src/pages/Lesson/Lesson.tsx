@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import Header from "../../components/Header/Header";
 import "./Lesson.scss";
 import { StoredWord } from "../../types";
 import GuessWord from "./Games/GuessWord/GuessWord";
 import GuessTranslation from "./Games/GuessTranslation/GuessTranslation";
+import { useAppSelector } from "../../hooks";
 
 interface GameStatus {
   isStarted: boolean;
@@ -45,9 +44,8 @@ function getOptions(
 }
 
 const Lesson = () => {
-  const selectedWords = useSelector(
-    (state: RootState) => state.selectedWords.selectedWords
-  );
+  const allWords = useAppSelector(state => state.allWords.allWords);
+  const selectedWords = useAppSelector(state => state.allWords.allWords.filter(word => word.selected));
 
   const [gameStatus, setGameStatus] = useState<GameStatus>({
     isStarted: false,
@@ -81,7 +79,7 @@ const Lesson = () => {
 
   useEffect(() => {
     if (selectedWords.length >= 4 && remainingWords.length > 0) {
-      setOptions(getOptions(remainingWords[0], selectedWords));
+      setOptions(getOptions(remainingWords[0], allWords));
     }
 
     if (remainingWords.length === 0 && isStarted) {

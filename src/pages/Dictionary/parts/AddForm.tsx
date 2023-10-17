@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { NewWord, StoredWord } from "../../../types";
+import { NewWord } from "../../../types";
 import "./AddForm.scss";
+import { useAppDispatch } from "../../../hooks";
+import { addWord } from "../../../store/slices/allWordsSlice";
 
 interface AddFormProps {
   server: string;
-  setWords: React.Dispatch<React.SetStateAction<StoredWord[]>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
@@ -34,7 +35,7 @@ const selectFields = [
   },
 ];
 
-const AddForm = ({ server, setWords, setError }: AddFormProps) => {
+const AddForm = ({ server, setError }: AddFormProps) => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [newWord, setNewWord] = useState<NewWord>({
     hebrew: "",
@@ -46,6 +47,8 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
     selected: false,
   });
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     setIsSubmitEnabled(!!newWord.hebrew && !!newWord.translation);
   }, [newWord]);
@@ -55,7 +58,7 @@ const AddForm = ({ server, setWords, setError }: AddFormProps) => {
     try {
       const response = await axios.post(server, newWord);
       const addedWord = response.data;
-      setWords((prevWords) => [...prevWords, addedWord]);
+      dispatch(addWord(addedWord));
       setNewWord({
         hebrew: "",
         translation: "",

@@ -1,23 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StoredWord } from "../../../../../../types";
 import Modal from "../../../../../../components/Modal/Modal";
 import UpdateWord from "../../../../../../components/Modal/ModalForms/UpdateWord/UpdateWord";
 import DeleteWord from "../../../../../../components/Modal/ModalForms/DeleteWord/DeleteWord";
+import { useAppDispatch, useAppSelector } from "../../../../../../hooks";
+import { useGetWordsQuery } from "../../../../../../store/services/WordsService";
+import {
+  setWords,
+  toggleWordSelection,
+} from "../../../../../../store/slices/allWordsSlice";
 import "./WordItem.scss";
 
 interface WordItemProps {
-  words: StoredWord[];
-  handleSelect: (selectedWord: StoredWord) => void;
   handleUpdate: (wordId: string, updatedWord: StoredWord) => void;
   handleDelete: (wordId: string) => Promise<void>;
 }
 
-const WordItem = ({
-  words,
-  handleSelect,
-  handleUpdate,
-  handleDelete,
-}: WordItemProps) => {
+const WordItem = ({ handleUpdate, handleDelete }: WordItemProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState<string | null>(null);
   const [currentWord, setCurrentWord] = useState<StoredWord | null>(null);
@@ -57,10 +56,32 @@ const WordItem = ({
     }
   };
 
+  const allWords = useAppSelector((state) => state.allWords.allWords);
+  const dispatch = useAppDispatch();
+  const { data: words, isLoading, isError } = useGetWordsQuery();
+
+  useEffect(() => {
+    if (words && allWords.length === 0) {
+      dispatch(setWords(words));
+    }
+  }, [words, dispatch]);
+
+  const handleSelect = (id: string) => {
+    dispatch(toggleWordSelection(id));
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading words</div>;
+  }
+
   return (
     <>
       {isModalOpen && <Modal>{renderModalContent()}</Modal>}
-      {words.map((word) => (
+      {allWords.map((word) => (
         <li
           key={word._id}
           className={`dictionary-list-card ${word.selected ? "selected" : ""}`}
@@ -69,7 +90,9 @@ const WordItem = ({
             <div className="dictionary-list-card-word">
               <div className="dictionary-list-card-word-main"></div>
               <p className="dictionary-list-card-word-hebrew">{word.hebrew}</p>
-              <p className="dictionary-list-card-word-transcription">{word.transcription}</p>
+              <p className="dictionary-list-card-word-transcription">
+                {word.transcription}
+              </p>
               <p className="dictionary-list-card-word-translation">
                 {word.translation}
               </p>
@@ -88,7 +111,7 @@ const WordItem = ({
               </p>
             </div>
             <div className="dictionary-list-card-buttons">
-              <button onClick={() => handleSelect(word)}>
+              <button onClick={() => handleSelect(word._id)}>
                 {word.selected ? "Remove from Lesson" : "Add to Lesson"}
               </button>
               <div className="dictionary-list-card-buttons-server">
