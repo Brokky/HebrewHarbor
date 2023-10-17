@@ -5,6 +5,7 @@ import { StoredWord } from "../../types";
 import GuessWord from "./Games/GuessWord/GuessWord";
 import GuessTranslation from "./Games/GuessTranslation/GuessTranslation";
 import { useAppSelector } from "../../hooks";
+import { getSelectedWords } from "../../store/selectors";
 
 interface GameStatus {
   isStarted: boolean;
@@ -44,8 +45,8 @@ function getOptions(
 }
 
 const Lesson = () => {
-  const allWords = useAppSelector(state => state.allWords.allWords);
-  const selectedWords = useAppSelector(state => state.allWords.allWords.filter(word => word.selected));
+  const allWords = useAppSelector((state) => state.allWords.allWords);
+  const selectedWords = useAppSelector(getSelectedWords);
 
   const [gameStatus, setGameStatus] = useState<GameStatus>({
     isStarted: false,
