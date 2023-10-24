@@ -1,0 +1,24 @@
+@import "../../../variables";
+
+.stats {
+    background-color: $background-color;
+    padding: $base-padding;
+    border-radius: 1rem;
+
+    h2 {
+        margin-bottom: 1rem;
+        font-style: italic;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+        border-top: 3px solid $text-color;
+        padding-top: $base-padding;
+    }
+
+    p {
+        font-size: 1.2rem;
+    }
+}

@@ -6,6 +6,7 @@ import GuessWord from "./Games/GuessWord/GuessWord";
 import GuessTranslation from "./Games/GuessTranslation/GuessTranslation";
 import { useAppSelector } from "../../hooks";
 import { getSelectedWords } from "../../store/selectors";
+import Stats from "./Stats/Stats";
 
 interface GameStatus {
   isStarted: boolean;
@@ -53,7 +54,7 @@ const Lesson = () => {
     isFinished: false,
     typeOfGame: null,
   });
-  const { isStarted, isFinished, typeOfGame } = gameStatus;
+  let { isStarted, isFinished, typeOfGame } = gameStatus;
 
   const [remainingWords, setRemainingWords] = useState<StoredWord[]>([]);
   const [disabledWords, setDisabledWords] = useState<StoredWord[]>([]);
@@ -61,6 +62,14 @@ const Lesson = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [time, setTime] = useState(0);
   const [intervalId, setIntervalId] = useState<null | number>(null);
+  const [stats, setStats] = useState({
+    wordsCount: 0,
+    wrongAnswersCount: 0,
+    firstTryCount: 0,
+    overallTime: 0,
+  });
+
+  let { wordsCount, wrongAnswersCount, firstTryCount, overallTime } = stats;
 
   const handleStart = (type: string) => {
     if (selectedWords.length < 4) {
@@ -70,6 +79,10 @@ const Lesson = () => {
     } else {
       setGameStatus((prev) => ({ ...prev, isStarted: true, typeOfGame: type }));
       setRemainingWords(shuffleArray([...selectedWords]));
+      setStats((prev) => ({
+        ...prev,
+        wordsCount: selectedWords.length,
+      }));
       setErrorMessage(null);
       const id = setInterval(() => {
         setTime((prevTime) => prevTime + 1);
@@ -90,6 +103,10 @@ const Lesson = () => {
         isStarted: false,
         typeOfGame: null,
       }));
+      setStats((prev) => ({
+        ...prev,
+        overallTime: time,
+      }));
       clearInterval(intervalId!);
       setTime(0);
       setIntervalId(null);
@@ -100,8 +117,17 @@ const Lesson = () => {
     if (answer === remainingWords[0]) {
       setDisabledWords([]);
       setRemainingWords((prev) => prev.filter((el) => el !== answer));
+      setStats((prev) => ({
+        ...prev,
+        firstTryCount:
+          disabledWords.length === 0 ? firstTryCount++ : firstTryCount,
+      }));
     } else {
       setDisabledWords((prev) => [...prev, answer]);
+      setStats((prev) => ({
+        ...prev,
+        wrongAnswersCount: wrongAnswersCount++,
+      }));
     }
   };
 
@@ -159,9 +185,12 @@ const Lesson = () => {
           />
         )}
         {isFinished && (
-          <div className="lesson-stats">
-            <h2>Stats</h2>
-          </div>
+          <Stats
+            wordsCount={wordsCount}
+            wrongAnswersCount={wrongAnswersCount}
+            firstTryCount={firstTryCount}
+            overallTime={overallTime}
+          />
         )}
       </main>
     </div>
