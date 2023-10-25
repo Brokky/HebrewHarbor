@@ -23,19 +23,28 @@ const WordList = ({ server, setError }: WordListProps) => {
     partOfSpeech: "",
     gender: "",
     number: "",
+    text: "",
   });
 
   const [filteredWords, setFilteredWords] = useState(allWords);
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSelectsState((prevState) => ({
+      ...prevState,
+      text: value,
+    }));
+  };
+
   useEffect(() => {
     const filtered = allWords.filter((word) => {
       return (
+        (word.hebrew.includes(selectsState.text) ||
+          word.transcription.includes(selectsState.text)) &&
         (word.partOfSpeech === selectsState.partOfSpeech ||
           selectsState.partOfSpeech === "") &&
-        (word.gender === selectsState.gender ||
-          selectsState.gender === "") &&
-        (word.number === selectsState.number ||
-          selectsState.number === "")
+        (word.gender === selectsState.gender || selectsState.gender === "") &&
+        (word.number === selectsState.number || selectsState.number === "")
       );
     });
     setFilteredWords(filtered);
@@ -75,32 +84,40 @@ const WordList = ({ server, setError }: WordListProps) => {
 
   return (
     <>
-      <button
-        onClick={() => {
-          filteredWords.forEach((word) => handleSelect(word._id));
-        }}
-      >
-        Select all
-      </button>
-      <div className="dictionary-categories">
-        <select name="partOfSpeech" onChange={handleSelectChange}>
-          <option value="">Any part of speech</option>
-          <option value="noun">Noun</option>
-          <option value="verb">Verb</option>
-          <option value="adjective">Adjective</option>
-        </select>
-        <select name="gender" onChange={handleSelectChange}>
-          <option value="">Any gender</option>
-          <option value="masculine">Masculine</option>
-          <option value="feminine">Feminine</option>
-          <option value="neuter">Neuter</option>
-        </select>
-        <select name="number" onChange={handleSelectChange}>
-          <option value="">Any number</option>
-          <option value="singular">Singular</option>
-          <option value="plural">Plural</option>
-        </select>
+      <div className="dictionary-sorting">
+        <input
+          type="text"
+          name="word-search"
+          placeholder="Search..."
+          onChange={handleInputChange}
+        />
+        <div className="dictionary-sorting-selects">
+          <select name="partOfSpeech" onChange={handleSelectChange}>
+            <option value="">Any part of speech</option>
+            <option value="noun">Noun</option>
+            <option value="verb">Verb</option>
+            <option value="adjective">Adjective</option>
+          </select>
+          <select name="gender" onChange={handleSelectChange}>
+            <option value="">Any gender</option>
+            <option value="masculine">Masculine</option>
+            <option value="feminine">Feminine</option>
+            <option value="neuter">Neuter</option>
+          </select>
+          <select name="number" onChange={handleSelectChange}>
+            <option value="">Any number</option>
+            <option value="singular">Singular</option>
+            <option value="plural">Plural</option>
+          </select>
+        </div>
       </div>
+      <button
+          onClick={() => {
+            filteredWords.forEach((word) => handleSelect(word._id));
+          }}
+        >
+          Select all
+        </button>
       <ul className="dictionary-list">
         <WordItem
           handleUpdate={handleUpdate}
