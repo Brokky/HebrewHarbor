@@ -40,7 +40,8 @@ const WordList = ({ server, setError }: WordListProps) => {
     const filtered = allWords.filter((word) => {
       return (
         (word.hebrew.includes(selectsState.text) ||
-          word.transcription.includes(selectsState.text)) &&
+          word.transcription.includes(selectsState.text) ||
+          word.translation.includes(selectsState.text)) &&
         (word.partOfSpeech === selectsState.partOfSpeech ||
           selectsState.partOfSpeech === "") &&
         (word.gender === selectsState.gender || selectsState.gender === "") &&
@@ -112,12 +113,12 @@ const WordList = ({ server, setError }: WordListProps) => {
         </div>
       </div>
       <button
-          onClick={() => {
-            filteredWords.forEach((word) => handleSelect(word._id));
-          }}
-        >
-          Select all
-        </button>
+        onClick={() => {
+          filteredWords.forEach((word) => handleSelect(word._id));
+        }}
+      >
+        Select all
+      </button>
       <ul className="dictionary-list">
         <WordItem
           handleUpdate={handleUpdate}
