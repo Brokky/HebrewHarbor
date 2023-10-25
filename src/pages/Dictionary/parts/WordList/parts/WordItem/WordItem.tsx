@@ -14,9 +14,10 @@ import "./WordItem.scss";
 interface WordItemProps {
   handleUpdate: (wordId: string, updatedWord: StoredWord) => void;
   handleDelete: (wordId: string) => Promise<void>;
+  filteredWords: StoredWord[];
 }
 
-const WordItem = ({ handleUpdate, handleDelete }: WordItemProps) => {
+const WordItem = ({ handleUpdate, handleDelete, filteredWords }: WordItemProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState<string | null>(null);
   const [currentWord, setCurrentWord] = useState<StoredWord | null>(null);
@@ -81,7 +82,7 @@ const WordItem = ({ handleUpdate, handleDelete }: WordItemProps) => {
   return (
     <>
       {isModalOpen && <Modal>{renderModalContent()}</Modal>}
-      {allWords.map((word) => (
+      {filteredWords.map((word) => (
         <li
           key={word._id}
           className={`dictionary-list-card ${word.selected ? "selected" : ""}`}
