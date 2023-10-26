@@ -86,6 +86,7 @@ const WordList = ({ server, setError }: WordListProps) => {
   return (
     <>
       <div className="dictionary-sorting">
+        <label>Find the word</label>
         <input
           type="text"
           name="word-search"
