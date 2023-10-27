@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { StoredWord } from "../../../../types";
 import "./UpdateWord.scss";
+import { selectProperties } from "../../../../data";
 
 interface UpdateWordProps {
   word: StoredWord;
   onUpdate: (wordId: string, updatedWord: StoredWord) => void;
   onClose: () => void;
+}
+
+function getValue(word: StoredWord, key: string): any {
+  if (key in word) {
+    return word[key as keyof StoredWord];
+  }
+  throw new Error(`Key ${key} does not exist on StoredWord object`);
 }
 
 // to make labels look good
@@ -25,23 +33,12 @@ const UpdateWord = ({ word, onClose, onUpdate }: UpdateWordProps) => {
     { id: "transcription", type: "text", value: updatedWord.transcription },
   ];
 
-  const selectFields = [
-    {
-      id: "partOfSpeech",
-      value: updatedWord.partOfSpeech,
-      options: ["noun", "verb", "adjective"],
-    },
-    {
-      id: "gender",
-      value: updatedWord.gender,
-      options: ["masculine", "feminine", "neuter"],
-    },
-    {
-      id: "number",
-      value: updatedWord.number,
-      options: ["singular", "plural"],
-    },
-  ];
+  const selectFields = selectProperties.map((field) => {
+    return {
+      ...field,
+      value: getValue(updatedWord, field.id),
+    };
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,12 +78,17 @@ const UpdateWord = ({ word, onClose, onUpdate }: UpdateWordProps) => {
                   setUpdatedWord({ ...updatedWord, [field.id]: e.target.value })
                 }
               >
-                <option disabled value=""></option>
-                {field.options.map((option) => (
-                  <option key={option} value={option.toLowerCase()}>
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
-                  </option>
-                ))}
+                {field.options.map((option, index) => {
+                  if (index === 0) {
+                    return <option key={option} value="" disabled></option>;
+                  }
+
+                  return (
+                    <option key={option} value={option.toLowerCase()}>
+                      {option}
+                    </option>
+                  );
+                })}
               </select>
             </>
           ))}

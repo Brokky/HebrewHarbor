@@ -9,6 +9,7 @@ import {
   toggleWordSelection,
 } from "../../../../store/slices/allWordsSlice";
 import { useEffect, useState } from "react";
+import { selectProperties } from "../../../../data";
 
 interface WordListProps {
   server: string;
@@ -52,10 +53,10 @@ const WordList = ({ server, setError }: WordListProps) => {
   }, [selectsState, allWords]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
+    const { id, value } = event.target;
     setSelectsState((prevState) => ({
       ...prevState,
-      [name]: value,
+      [id]: value,
     }));
   };
 
@@ -86,31 +87,39 @@ const WordList = ({ server, setError }: WordListProps) => {
   return (
     <>
       <div className="dictionary-sorting">
-        <label>Find the word</label>
+        <label htmlFor="word-search">Find the word</label>
         <input
           type="text"
-          name="word-search"
+          id="word-search"
           placeholder="Search..."
           onChange={handleInputChange}
         />
         <div className="dictionary-sorting-selects">
-          <select name="partOfSpeech" onChange={handleSelectChange}>
-            <option value="">Any part of speech</option>
-            <option value="noun">Noun</option>
-            <option value="verb">Verb</option>
-            <option value="adjective">Adjective</option>
-          </select>
-          <select name="gender" onChange={handleSelectChange}>
-            <option value="">Any gender</option>
-            <option value="masculine">Masculine</option>
-            <option value="feminine">Feminine</option>
-            <option value="neuter">Neuter</option>
-          </select>
-          <select name="number" onChange={handleSelectChange}>
-            <option value="">Any number</option>
-            <option value="singular">Singular</option>
-            <option value="plural">Plural</option>
-          </select>
+          {selectProperties.map((select) => {
+            return (
+              <select
+                key={select.id}
+                id={select.id}
+                onChange={handleSelectChange}
+              >
+                {select.options.map((option, index) => {
+                  if (index === 0) {
+                    return (
+                      <option key={option} value={""}>
+                        {`Any ${option.toLowerCase()}`}
+                      </option>
+                    );
+                  }
+
+                  return (
+                    <option key={option} value={option.toLowerCase()}>
+                      {option}
+                    </option>
+                  );
+                })}
+              </select>
+            );
+          })}
         </div>
       </div>
       <button

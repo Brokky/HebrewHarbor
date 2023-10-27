@@ -4,6 +4,7 @@ import { NewWord } from "../../../types";
 import "./AddForm.scss";
 import { useAppDispatch } from "../../../hooks";
 import { addWord } from "../../../store/slices/allWordsSlice";
+import { selectProperties } from "../../../data";
 
 interface AddFormProps {
   server: string;
@@ -17,21 +18,6 @@ const inputFields = [
     name: "transcription" as const,
     type: "text",
     placeholder: "Transcription",
-  },
-];
-
-const selectFields = [
-  {
-    name: "partOfSpeech",
-    options: ["Part of speech", "Noun", "Verb", "Adjective"],
-  },
-  {
-    name: "gender",
-    options: ["Gender", "Masculine", "Feminine", "Neuter"],
-  },
-  {
-    name: "number",
-    options: ["Number", "Singular", "Plural"],
   },
 ];
 
@@ -97,12 +83,12 @@ const AddForm = ({ server, setError }: AddFormProps) => {
           ))}
         </div>
         <div className="dictionary-form-fieldset-selects">
-          {selectFields.map((field) => (
+          {selectProperties.map((field) => (
             <select
-              key={field.name}
-              name={field.name}
+              key={field.id}
+              name={field.id}
               onChange={handleSelect}
-              value={(newWord as any)[field.name]} // use it for reset to defaults when form is submitted
+              value={(newWord as any)[field.id]} // use it for reset to defaults when form is submitted
             >
               {field.options.map((option, index) => (
                 <option
